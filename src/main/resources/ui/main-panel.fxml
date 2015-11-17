@@ -3,50 +3,59 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <bottom>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-            <TextField promptText="Search..." />
-          <Button mnemonicParsing="false" text="Delete Entry" />
-            <Button mnemonicParsing="false" text="Button" />
-        </items>
-      </ToolBar>
-   </bottom>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
+<BorderPane xmlns="http://javafx.com/javafx/8">
+    <bottom>
+        <ToolBar>
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                <TextField promptText="Search..."/>
+                <Button mnemonicParsing="false" text="Delete Entry"/>
+                <Button mnemonicParsing="false" text="Button"/>
             </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <left>
-      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="60.0" prefWidth="400.0">
-               <children>
-                  <Label text="Label" />
-                  <TextField />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </center>
+        </ToolBar>
+    </bottom>
+    <left>
+        <ListView/>
+    </left>
+    <center>
+        <VBox>
+            <children>
+                <HBox>
+                    <children>
+                        <TextField promptText="Klassenlehrer/in"/>
+                        <TextField promptText="Klasse"/>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <TextField promptText="Nachname"/>
+                        <TextField promptText="Vorname"/>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <TextField promptText="Klasse"/>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <TextField promptText="Straße"/>
+                        <TextField promptText="Hausnummer"/>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <TextField promptText="PLZ"/>
+                        <TextField promptText="Stadt"/>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <TextField promptText="Entfernung zur Schule"/>
+                        <TextField promptText="KFZ-Kennzeichen"/>
+                        <TextField promptText="Mitfahrer"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
 </BorderPane>
