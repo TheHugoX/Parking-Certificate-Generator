@@ -11,20 +11,23 @@ import java.util.ResourceBundle;
 
 public class EntrySection extends FXMLContent<VBox> {
     @FXML
-    private Label sectionTitle;
-
-    @FXML
     private HBox sectionContent;
+
+    private Label sectionTitle;
 
     public EntrySection() {
         super("entry-section.fxml");
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-        // getNode().setPadding(new Insets(5));
     }
 
     public void setSectionTitle(String sectionTitle) {
+        if (this.sectionTitle == null) {
+            this.sectionTitle = new Label();
+            this.sectionTitle.setPadding(new Insets(0, 0, 10, 0));
+            getNode().getChildren().add(0, this.sectionTitle);
+        }
         this.sectionTitle.setText(sectionTitle);
     }
 

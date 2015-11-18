@@ -16,7 +16,7 @@ public class EntryField implements Content<TextField> {
             textField.setText(text);
         }
 
-        if (text != null) {
+        if (promtText != null) {
 
             textField.setPromptText(promtText);
         }
