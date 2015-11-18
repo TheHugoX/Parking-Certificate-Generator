@@ -1,5 +1,7 @@
 package com.obsbs.database.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +26,8 @@ import javax.sql.DataSource;
 @PropertySource("classpath:database.properties")
 public class DatabaseConfig
 {
+  private static final Logger LOG = LoggerFactory.getLogger(DatabaseConfig.class);
+
   @Autowired
   private Environment environment;
 
@@ -36,8 +40,16 @@ public class DatabaseConfig
   public JpaVendorAdapter jpaVendorAdapter()
   {
     HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-    adapter.setShowSql(Boolean.parseBoolean(getProperty("database.showsql")));
-    adapter.setGenerateDdl(Boolean.parseBoolean(getProperty("database.generateDdl")));
+
+    boolean showSql = Boolean.parseBoolean(getProperty("database.showsql"));
+    boolean generateDdl = Boolean.parseBoolean(getProperty("database.generateDdl"));
+
+    adapter.setShowSql(showSql);
+    adapter.setGenerateDdl(generateDdl);
+
+    LOG.debug("Settings showsql to '" + showSql + "'");
+    LOG.debug("Settings generateDdl to '" + generateDdl + "'");
+
     return adapter;
   }
 
@@ -45,10 +57,17 @@ public class DatabaseConfig
   public DataSource dataSource()
   {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setUrl(getProperty("database.url"));
+    String url = getProperty("database.url");
+    String driverClassName = getProperty("database.driverClassName");
+
+    dataSource.setUrl(url);
     dataSource.setUsername(getProperty("database.username"));
     dataSource.setPassword(getProperty("database.password"));
-    dataSource.setDriverClassName(getProperty("database.driverClassName"));
+    dataSource.setDriverClassName(driverClassName);
+
+    LOG.debug("Connected to database '" + url + "'");
+    LOG.debug("Using driver '" + driverClassName + "'");
+
     return dataSource;
   }
 
