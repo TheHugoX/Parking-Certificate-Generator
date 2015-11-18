@@ -48,8 +48,15 @@ public class DriverJPA
   //@Column(name = "PASSENGERS", nullable = false, updatable = false)
   //private Set<PassengerJPA> passengers;
 
+  @Column(name = "PRIORITY", nullable = false, updatable = false)
+  private int priority;
+
+  protected DriverJPA()
+  {
+  }
+
   public DriverJPA(String teacher, String className, String firstName, String lastName, String address, String plz, String town, int kmToSchool,
-                   int hoursToSchool, String kfz, Set<PassengerJPA> passengers)
+                   int hoursToSchool, String kfz, Set<PassengerJPA> passengers, int priority)
   {
     this.teacher = teacher;
     this.className = className;
@@ -62,6 +69,7 @@ public class DriverJPA
     this.hoursToSchool = hoursToSchool;
     this.kfz = kfz;
     //this.passengers = passengers;
+    this.priority = priority;
   }
 
   public Long getId()

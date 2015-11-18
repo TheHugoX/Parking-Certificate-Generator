@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories("com.obsbs.database.repository")
-@ComponentScan({"com.obsbs.database.service.impl", "com.obsbs.database.worker"})
+@ComponentScan({"com.obsbs.database.service", "com.obsbs.database.worker"})
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
 public class DatabaseConfig
