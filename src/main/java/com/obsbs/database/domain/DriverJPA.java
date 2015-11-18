@@ -1,6 +1,8 @@
 package com.obsbs.database.domain;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -45,8 +47,9 @@ public class DriverJPA
   @Column(name = "KFZ", nullable = false, updatable = false)
   private String kfz;
 
-  //@Column(name = "PASSENGERS", nullable = false, updatable = false)
-  //private Set<PassengerJPA> passengers;
+  @ElementCollection
+  @CollectionTable(name = "PASSENGERS")
+  private Set<PassengerJPA> passengers;
 
   @Column(name = "PRIORITY", nullable = false, updatable = false)
   private int priority;
@@ -68,7 +71,7 @@ public class DriverJPA
     this.kmToSchool = kmToSchool;
     this.hoursToSchool = hoursToSchool;
     this.kfz = kfz;
-    //this.passengers = passengers;
+    this.passengers = passengers;
     this.priority = priority;
   }
 
@@ -127,8 +130,13 @@ public class DriverJPA
     return kfz;
   }
 
-  //public Set<PassengerJPA> getPassengers()
-  //{
-  //   return passengers;
-//  }
+  public int getPriority()
+  {
+    return priority;
+  }
+
+  public Set<PassengerJPA> getPassengers()
+  {
+    return passengers;
+  }
 }

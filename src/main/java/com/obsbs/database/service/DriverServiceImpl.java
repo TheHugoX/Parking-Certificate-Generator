@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class DriverServiceImpl
   implements DriverService
@@ -18,5 +20,12 @@ public class DriverServiceImpl
   public void create(DriverBean driver)
   {
     driverWorker.save(driver);
+  }
+
+  @Override
+  @Transactional
+  public List<DriverBean> getByPriority(int max)
+  {
+    return driverWorker.getByPriority(max);
   }
 }
