@@ -29,6 +29,10 @@ public class EntryField implements Content<TextField> {
         });
     }
 
+    public String getValue() {
+        return textField.getText();
+    }
+
     protected List<String> onAutoComplete(String text) {
         return new ArrayList<String>();
     }

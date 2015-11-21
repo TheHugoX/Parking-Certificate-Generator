@@ -61,7 +61,7 @@ public class DataManager {
 
                 for (DataBean dataBean : dataBeans) {
                     for (String key : keys) {
-                        String valueForKey = dataBean.getValue(key);
+                        String valueForKey = dataBean.getValueAsString(key);
                         if (valueForKey != null && valueForKey.contains(searchterm)) {
                             result.add(dataBean);
                         }
@@ -105,8 +105,8 @@ public class DataManager {
                         int result = 0;
 
                         for (String key : keys) {
-                            String value0 = dataBean0.getValue(key);
-                            String value1 = dataBean1.getValue(key);
+                            String value0 = dataBean0.getValueAsString(key);
+                            String value1 = dataBean1.getValueAsString(key);
                             if (value0 != null && value1 != null) {
                                 result = value0.compareTo(value1);
                                 if (result != 0) {

@@ -7,6 +7,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EntrySection extends FXMLContent<VBox> {
@@ -35,6 +37,12 @@ public class EntrySection extends FXMLContent<VBox> {
         EntryField entryField = new EntryField(text, promptText);
         sectionContent.getChildren().add(entryField.getNode());
         return entryField;
+    }
+
+    public EntrySelection addEntrySelection(List<String> entries, Collection<String> selectedEntries) {
+        EntrySelection entrySelection = new EntrySelection(entries, selectedEntries);
+        sectionContent.getChildren().add(entrySelection.getNode());
+        return entrySelection;
     }
 
     public EntryField addEntryField(String promptText) {

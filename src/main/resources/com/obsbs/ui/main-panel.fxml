@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.obsbs.ui.EntryConfigurationPanel?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <bottom>
@@ -17,6 +18,6 @@
         <ListView fx:id="entries"/>
     </left>
     <center>
-        <VBox fx:id="content"/>
+        <EntryConfigurationPanel fx:id="entryConfigurationPanel"/>
     </center>
 </BorderPane>
