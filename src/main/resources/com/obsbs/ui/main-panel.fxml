@@ -10,7 +10,8 @@
             <items>
                 <TextField promptText="Search..." fx:id="filterField"/>
                 <Button mnemonicParsing="false" text="Delete Entry" fx:id="deleteEntryButton"/>
-                <Button mnemonicParsing="false" text="Add Entry" fx:id="addEntryButton"/>
+                <Button mnemonicParsing="false" text="Create Entry" fx:id="createEntryButton"/>
+                <Button mnemonicParsing="false" text="Update Entry" fx:id="updateEntryButton"/>
             </items>
         </ToolBar>
     </bottom>

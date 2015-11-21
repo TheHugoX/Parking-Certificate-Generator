@@ -1,13 +1,16 @@
 package com.obsbs.management.beans;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataBean implements Serializable {
     private final Map<String, HasValue> values = new HashMap<>();
+    private String[] displayedKeys;
 
-    public DataBean() {
+    public DataBean(String... displayedKeys) {
+        this.displayedKeys = displayedKeys;
     }
 
     public DataBean(Map<String, HasValue> values) {
@@ -56,5 +59,31 @@ public class DataBean implements Serializable {
             values.put(key, value);
         }
         return true;
+    }
+
+    public String[] getDisplayedKeys() {
+        return displayedKeys;
+    }
+
+    public void setDisplayedKeys(String... displayedKeys) {
+        this.displayedKeys = displayedKeys;
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+
+        if (displayedKeys != null) {
+            for (String displayedKey : displayedKeys) {
+                String value = getValueAsString(displayedKey);
+                if (value != null && !value.isEmpty()) {
+                    result += (result.isEmpty() ? "" : ", ") + value;
+                }
+            }
+        } else {
+            result = super.toString();
+        }
+
+        return result;
     }
 }

@@ -19,12 +19,19 @@ public class EntryConfigurationPanel extends VBox {
     private Map<String, EntryField> entryFieldLookup = new HashMap<>();
     private EntrySelection schoolDayEntry;
 
+    private DataBean dataBean;
+
     public EntryConfigurationPanel() {
         super(10);
-        updateEntrySections(new DataBean());
+        initEntrySections();
+    }
+
+    public void initEntrySections() {
+        updateEntrySections(new DataBean(Field.FIRST_NAME.getKey(), Field.LAST_NAME.getKey()));
     }
 
     public void updateEntrySections(DataBean dataBean) {
+        this.dataBean = dataBean;
         getChildren().clear();
         entryFieldLookup.clear();
 
@@ -65,8 +72,6 @@ public class EntryConfigurationPanel extends VBox {
     }
 
     public DataBean getDataBean() {
-        DataBean dataBean = new DataBean();
-
         for (Map.Entry<String, EntryField> entry : entryFieldLookup.entrySet()) {
             String value = entry.getValue().getValue();
             dataBean.setValue(entry.getKey(), value == null || value.isEmpty() ? null : value);
