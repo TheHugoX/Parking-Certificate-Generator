@@ -20,11 +20,7 @@ public class DataBean implements Serializable {
     }
 
     public Map<String, String> getValues() {
-        Map<String, String> values = new HashMap<>();
-        for (Map.Entry<String, String> entry : this.values.entrySet()) {
-            values.put(entry.getKey(), entry.getValue());
-        }
-        return Collections.unmodifiableMap(values);
+        return Collections.unmodifiableMap(this.values);
     }
 
     public String getValue(String key) {

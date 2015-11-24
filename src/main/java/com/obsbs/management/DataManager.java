@@ -13,14 +13,14 @@ public class DataManager {
         dataBeans.addAll(IMPORT_EXPORT_MANAGER.load());
     }
 
-    public boolean add(DataBean dataBean) {
+    public DataBean add(DataBean dataBean) {
         if (dataBean == null) {
-            return false;
+            return null;
         }
         terminateAllJobs();
         dataBeans.add(dataBean);
         IMPORT_EXPORT_MANAGER.export(dataBeans);
-        return true;
+        return dataBean;
     }
 
     public boolean remove(DataBean dataBean) {

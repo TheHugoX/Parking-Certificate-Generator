@@ -1,10 +1,12 @@
 package com.obsbs.ui.panels;
 
 import com.obsbs.management.beans.DataBean;
+import com.obsbs.management.beans.PassengerValueBean;
 import com.obsbs.management.beans.WeekDayValueBean;
 import com.obsbs.ui.fields.EntryField;
 import com.obsbs.ui.sections.EntrySection;
 import com.obsbs.ui.sections.EntrySelection;
+import com.obsbs.ui.sections.PassengerSection;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class EntryConfigurationPanel extends VBox {
     private Map<String, EntryField> entryFieldLookup = new HashMap<>();
     private EntrySelection schoolDayEntry;
+    private PassengerSection passengerSection;
 
     private DataBean dataBean;
 
@@ -59,6 +62,10 @@ public class EntryConfigurationPanel extends VBox {
         addEntry(companySection1, dataBean, Field.COMPANY_STREET, Field.COMPANY_HOUSE_NUMBER);
         EntrySection companySection2 = addEntrySection(null);
         addEntry(companySection2, dataBean, Field.COMPANY_POSTAL_CODE, Field.COMPANY_CITY);
+
+        passengerSection = new PassengerSection(PassengerValueBean.fromJSON(dataBean.getValue(Field.PASSENGERS.getKey())));
+        passengerSection.setSectionTitle("Passagiere:");
+        getChildren().add(passengerSection.getNode());
     }
 
     public DataBean getDataBean() {
@@ -70,6 +77,9 @@ public class EntryConfigurationPanel extends VBox {
         Set<String> selectedEntries = schoolDayEntry.getSelectedEntries();
         WeekDayValueBean weekDayValueBean = new WeekDayValueBean(selectedEntries);
         dataBean.setValue(Field.SCHOOL_DAYS.getKey(), selectedEntries.isEmpty() ? null : weekDayValueBean.getValueAsString());
+
+        PassengerValueBean passengerValueBean = passengerSection.getPassengerValueBean();
+        dataBean.setValue(Field.PASSENGERS.getKey(), passengerValueBean == null ? null : passengerValueBean.getValueAsString());
 
         return dataBean;
     }
@@ -114,6 +124,7 @@ public class EntryConfigurationPanel extends VBox {
         fields.add(Field.DISTANCE);
         fields.add(Field.SCHOOL_DAYS);
         fields.add(Field.REGISTRATION_CODE);
+        fields.add(Field.PASSENGERS);
 
         return fields;
     }
@@ -138,7 +149,8 @@ public class EntryConfigurationPanel extends VBox {
         REGISTRATION_CODE("registration_code", "KFZ-Kennzeichen"), DISTANCE("distance", "Entfernung"),
         COMPANY_NAME("company_name", "Firmen Name"),
         COMPANY_STREET("company_street", "Straße"), COMPANY_HOUSE_NUMBER("company_house_number", "Hausnummer"),
-        COMPANY_POSTAL_CODE("company_postal_code", "PLZ"), COMPANY_CITY("company_city", "Stadt");
+        COMPANY_POSTAL_CODE("company_postal_code", "PLZ"), COMPANY_CITY("company_city", "Stadt"),
+        PASSENGERS("passengers", "Passagiere");
 
         private final String key;
         private final String displayValue;

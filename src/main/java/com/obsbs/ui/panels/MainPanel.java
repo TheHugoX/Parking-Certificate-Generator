@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.*;
 
 public class MainPanel extends FXMLContent<BorderPane> {
-    private final DataManager dataManager = new DataManager();
+    private static final DataManager DATA_MANAGER = new DataManager();
 
     private String filter;
     private boolean sortByEligibility = false;
@@ -63,21 +63,21 @@ public class MainPanel extends FXMLContent<BorderPane> {
             Main.openYesNoDialog("Wirklich löschen?", "Möchtest du den Eintrag \"" + dataBean + "\" wirlich Löschen?", new YesNoPanel.AbstractYesNoCallback() {
                 @Override
                 public void onYes() {
-                    dataManager.remove(entries.getSelectionModel().getSelectedItem());
+                    DATA_MANAGER.remove(entries.getSelectionModel().getSelectedItem());
                     updateListView();
                 }
             });
         });
 
         saveEntryButton.setOnMouseClicked(event -> {
-            dataManager.add(entryConfigurationPanel.getDataBean());
-            updateListView();
+            ;
+            updateListView(DATA_MANAGER.add(entryConfigurationPanel.getDataBean()));
         });
 
         newEntryButton.setOnMouseClicked(event -> {
             DataBean dataBean = entryConfigurationPanel.getDataBean();
             if (!dataBean.getValues().isEmpty()) {
-                dataManager.add(dataBean);
+                DATA_MANAGER.add(dataBean);
             }
             entryConfigurationPanel.initEntrySections();
             updateListView();
@@ -85,47 +85,60 @@ public class MainPanel extends FXMLContent<BorderPane> {
     }
 
     private void updateListView() {
-        updateListView(filter);
+        updateListView(filter, null);
+    }
+
+    private void updateListView(DataBean dataBean) {
+        updateListView(filter, dataBean);
     }
 
     private void updateListView(List<DataBean> dataBeans) {
+        updateListView(dataBeans, null);
+    }
+
+    private void updateListView(List<DataBean> dataBeans, DataBean dataBean) {
+        DataBean toSelect = dataBean == null ? entries.getSelectionModel().getSelectedItem() : dataBean;
         entries.setItems(FXCollections.observableList(dataBeans));
         entries.refresh();
+        if (toSelect != null && dataBeans.contains(toSelect)) {
+            entries.getSelectionModel().select(toSelect);
+        } else {
+            entries.getSelectionModel().selectFirst();
+            entries.getOnMouseClicked().handle(null);
+        }
     }
 
     private void updateListView(String filter) {
+        updateListView(filter, null);
+    }
+
+    private void updateListView(String filter, DataBean dataBean) {
         this.filter = filter;
 
         DataManager.AsyncCallback<List<DataBean>> asyncCallback = value -> {
             if (sortByEligibility) {
-                updateListView(sortByEligibility(value));
+                updateListView(sortByEligibility(value), dataBean);
             } else {
-                updateListView(value);
+                updateListView(value, dataBean);
             }
         };
 
-        dataManager.terminateAllJobs();
+        DATA_MANAGER.terminateAllJobs();
 
         if (filter != null) {
-            dataManager.findSorted(asyncCallback, filter, EntryConfigurationPanel.convert(EntryConfigurationPanel.getFieldsInOrder()));
+            DATA_MANAGER.findSorted(asyncCallback, filter, EntryConfigurationPanel.convert(EntryConfigurationPanel.getFieldsInOrder()));
         } else {
-            dataManager.findAllSorted(asyncCallback, EntryConfigurationPanel.convert(EntryConfigurationPanel.getFieldsInOrder()));
+            DATA_MANAGER.findAllSorted(asyncCallback, EntryConfigurationPanel.convert(EntryConfigurationPanel.getFieldsInOrder()));
         }
     }
 
     public void export() {
-        dataManager.export();
+        DATA_MANAGER.export();
     }
 
     private static List<DataBean> sortByEligibility(List<DataBean> dataBeans) {
         List<DataBean> sorted = new ArrayList<>(dataBeans);
-        // ToDo
-        // Collections.sort(sorted, new Comparator<DataBean>() {
-        //     @Override
-        //     public int compare(DataBean d0, DataBean d1) {
-        //         return 0;
-        //     }
-        // });
+        // ToDo sort
         return sorted;
     }
 }

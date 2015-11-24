@@ -11,7 +11,7 @@
                 <TextField promptText="Suchen..." fx:id="filterField"/>
                 <Button text="Nach Berechtigung Sortieren" fx:id="sortEntriesButton"/>
                 <Button text="Eintrag löschen" fx:id="deleteEntryButton"/>
-                <Button text="Eintrag Speichern" fx:id="saveEntryButton"/>
+                <Button text="Eintrag speichern" fx:id="saveEntryButton"/>
                 <Button text="Eintrag anlegen" fx:id="newEntryButton"/>
             </items>
         </ToolBar>

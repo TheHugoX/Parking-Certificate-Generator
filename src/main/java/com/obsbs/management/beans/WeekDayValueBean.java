@@ -26,7 +26,7 @@ public class WeekDayValueBean extends HasValue<List<WeekDayValueBean.WeekDay>> i
     }
 
     public WeekDayValueBean(String commaSeparatedList) {
-        if (commaSeparatedList != null && commaSeparatedList.contains(",")) {
+        if (commaSeparatedList != null) {
             for (String value : commaSeparatedList.replace(" ", "").split(",")) {
                 addAndSort(this.values, value);
             }
