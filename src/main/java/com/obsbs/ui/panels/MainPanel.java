@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 import java.net.URL;
 import java.util.*;
 
-public class MainPnel extends FXMLContent<BorderPane> {
+public class MainPanel extends FXMLContent<BorderPane> {
     private final DataManager dataManager = new DataManager();
 
     private String filter;
