@@ -4,43 +4,48 @@ import java.io.Serializable;
 import java.util.*;
 
 public class WeekDayValueBean extends HasValue<List<WeekDayValueBean.WeekDay>> implements Serializable {
-    private final List<WeekDay> value = new ArrayList<>();
+    private final List<WeekDay> values = new ArrayList<>();
 
     public WeekDayValueBean() {
     }
 
-    public WeekDayValueBean(Collection<WeekDay> value) {
-        for (WeekDay weekDay : value) {
-            addValue(weekDay);
+    public WeekDayValueBean(String... values) {
+        if (values != null) {
+            for (String value : values) {
+                addAndSort(this.values, value);
+            }
         }
     }
 
-    public boolean addValue(WeekDay weekDay) {
-        if (weekDay == null || value.contains(weekDay)) {
-            return false;
-        }
-        value.add(weekDay);
-        Collections.sort(value, new Comparator<WeekDay>() {
-            @Override
-            public int compare(WeekDay weekDay0, WeekDay weekDay1) {
-                return Integer.compare(weekDay0.getWeight(), weekDay1.getWeight());
+    public WeekDayValueBean(Collection<String> values) {
+        if (values != null) {
+            for (String value : values) {
+                addAndSort(this.values, value);
             }
-        });
-        return true;
+        }
+    }
+
+    public WeekDayValueBean(String commaSeparatedList) {
+        if (commaSeparatedList != null && commaSeparatedList.contains(",")) {
+            for (String value : commaSeparatedList.replace(" ", "").split(",")) {
+                addAndSort(this.values, value);
+            }
+        }
     }
 
     @Override
     public List<WeekDay> getValue() {
-        return value;
+        return Collections.unmodifiableList(values);
     }
 
     @Override
     public String getValueAsString() {
-        String valueAsString = value.size() > 0 ? value.get(0).getValue() : null;
-        for (int i = 1; i < value.size(); i++) {
-            valueAsString += ", " + value.get(i).getValue();
-        }
-        return valueAsString;
+        return convert(values);
+    }
+
+    @Override
+    public String toString() {
+        return convert(values);
     }
 
     public enum WeekDay {
@@ -62,5 +67,40 @@ public class WeekDayValueBean extends HasValue<List<WeekDayValueBean.WeekDay>> i
         public String getValue() {
             return value;
         }
+    }
+
+    private static WeekDay convert(String value) {
+        for (WeekDay weekDay : WeekDay.values()) {
+            if (weekDay.getValue().equals(value)) {
+                return weekDay;
+            }
+        }
+        return null;
+    }
+
+    private static String convert(List<WeekDay> values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        String valueAsString = values.get(0).getValue();
+        for (int i = 1; i < values.size(); i++) {
+            valueAsString += ", " + values.get(i).getValue();
+        }
+        return valueAsString;
+    }
+
+    private static boolean addAndSort(List<WeekDay> values, String value) {
+        WeekDay weekDay = convert(value);
+        if (weekDay == null || values.contains(weekDay)) {
+            return false;
+        }
+        values.add(weekDay);
+        Collections.sort(values, new Comparator<WeekDay>() {
+            @Override
+            public int compare(WeekDay weekDay0, WeekDay weekDay1) {
+                return Integer.compare(weekDay0.getWeight(), weekDay1.getWeight());
+            }
+        });
+        return true;
     }
 }

@@ -1,5 +1,6 @@
-package com.obsbs.ui;
+package com.obsbs.ui.fields;
 
+import com.obsbs.ui.FXMLContent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;

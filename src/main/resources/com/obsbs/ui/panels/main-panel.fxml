@@ -2,16 +2,17 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import com.obsbs.ui.EntryConfigurationPanel?>
+<?import com.obsbs.ui.panels.EntryConfigurationPanel?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <bottom>
         <ToolBar>
             <items>
-                <TextField promptText="Search..." fx:id="filterField"/>
-                <Button mnemonicParsing="false" text="Delete Entry" fx:id="deleteEntryButton"/>
-                <Button mnemonicParsing="false" text="Create Entry" fx:id="createEntryButton"/>
-                <Button mnemonicParsing="false" text="Update Entry" fx:id="updateEntryButton"/>
+                <TextField promptText="Suchen..." fx:id="filterField"/>
+                <Button text="Nach Berechtigung Sortieren" fx:id="sortEntriesButton"/>
+                <Button text="Eintrag löschen" fx:id="deleteEntryButton"/>
+                <Button text="Eintrag Speichern" fx:id="saveEntryButton"/>
+                <Button text="Eintrag anlegen" fx:id="newEntryButton"/>
             </items>
         </ToolBar>
     </bottom>

@@ -1,4 +1,4 @@
-package com.obsbs.ui;
+package com.obsbs.ui.fields;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -21,11 +21,9 @@ public class EntryField implements Content<TextField> {
             textField.setPromptText(promtText);
         }
 
-        getNode().setOnKeyReleased(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent event) {
-                List<String> autoCompleteEntries = onAutoComplete(event.getText());
-                // ToDo
-            }
+        getNode().setOnKeyReleased(event -> {
+            List<String> autoCompleteEntries = onAutoComplete(event.getText());
+            // ToDo
         });
     }
 

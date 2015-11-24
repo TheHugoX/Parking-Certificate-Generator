@@ -1,5 +1,7 @@
-package com.obsbs.ui;
+package com.obsbs.ui.sections;
 
+import com.obsbs.ui.FXMLContent;
+import com.obsbs.ui.fields.EntryField;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

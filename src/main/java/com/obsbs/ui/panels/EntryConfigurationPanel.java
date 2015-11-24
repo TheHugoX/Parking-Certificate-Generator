@@ -1,19 +1,14 @@
-package com.obsbs.ui;
+package com.obsbs.ui.panels;
 
 import com.obsbs.management.beans.DataBean;
-import com.obsbs.management.beans.HasValue;
 import com.obsbs.management.beans.WeekDayValueBean;
-import com.obsbs.ui.content.Content;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import com.obsbs.ui.fields.EntryField;
+import com.obsbs.ui.sections.EntrySection;
+import com.obsbs.ui.sections.EntrySelection;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EntryConfigurationPanel extends VBox {
     private Map<String, EntryField> entryFieldLookup = new HashMap<>();
@@ -51,13 +46,8 @@ public class EntryConfigurationPanel extends VBox {
         for (WeekDayValueBean.WeekDay weekDay : WeekDayValueBean.WeekDay.values()) {
             entries.add(weekDay.getValue());
         }
-        WeekDayValueBean weekDayValueBean = (WeekDayValueBean) dataBean.getValue(Field.SCHOOL_DAYS.getKey());
-        Set<String> selectedEntries = new HashSet<>();
-        if (weekDayValueBean != null) {
-            for (WeekDayValueBean.WeekDay weekDay : weekDayValueBean.getValue()) {
-                selectedEntries.add(weekDay.getValue());
-            }
-        }
+        WeekDayValueBean weekDayValueBean = new WeekDayValueBean(dataBean.getValue(Field.SCHOOL_DAYS.getKey()));
+        Set<String> selectedEntries = weekDayValueBean.getValue().stream().map(WeekDayValueBean.WeekDay::getValue).collect(Collectors.toSet());
         schoolDayEntry = schoolDaySection.addEntrySelection(entries, selectedEntries);
 
         EntrySection furtherInformationSection = addEntrySection("Weitere Informationen:");
@@ -77,16 +67,9 @@ public class EntryConfigurationPanel extends VBox {
             dataBean.setValue(entry.getKey(), value == null || value.isEmpty() ? null : value);
         }
 
-        WeekDayValueBean weekDayValueBean = new WeekDayValueBean();
         Set<String> selectedEntries = schoolDayEntry.getSelectedEntries();
-        if (!selectedEntries.isEmpty()) {
-            for (WeekDayValueBean.WeekDay weekDay : WeekDayValueBean.WeekDay.values()) {
-                if (selectedEntries.contains(weekDay.getValue())) {
-                    weekDayValueBean.addValue(weekDay);
-                }
-            }
-        }
-        dataBean.setValue(Field.SCHOOL_DAYS.getKey(), selectedEntries.isEmpty() ? null : weekDayValueBean);
+        WeekDayValueBean weekDayValueBean = new WeekDayValueBean(selectedEntries);
+        dataBean.setValue(Field.SCHOOL_DAYS.getKey(), selectedEntries.isEmpty() ? null : weekDayValueBean.getValueAsString());
 
         return dataBean;
     }
@@ -104,9 +87,46 @@ public class EntryConfigurationPanel extends VBox {
         for (Field field : fields) {
             String key = field.getKey();
             String displayValue = field.getDisplayValue();
-            EntryField entryField = entrySection.addEntryField(dataBean.getValueAsString(key), displayValue);
+            EntryField entryField = entrySection.addEntryField(dataBean.getValue(key), displayValue);
             entryFieldLookup.put(key, entryField);
         }
+    }
+
+    public static List<Field> getFieldsInOrder() {
+        List<Field> fields = new ArrayList<>();
+
+        fields.add(Field.FIRST_NAME);
+        fields.add(Field.LAST_NAME);
+        fields.add(Field.CLASS);
+
+        fields.add(Field.POSTAL_CODE);
+        fields.add(Field.CITY);
+        fields.add(Field.STREET);
+        fields.add(Field.HOUSE_NUMBER);
+
+        fields.add(Field.COMPANY_NAME);
+        fields.add(Field.COMPANY_POSTAL_CODE);
+        fields.add(Field.COMPANY_CITY);
+        fields.add(Field.COMPANY_STREET);
+        fields.add(Field.COMPANY_HOUSE_NUMBER);
+
+        fields.add(Field.TEACHER);
+        fields.add(Field.DISTANCE);
+        fields.add(Field.SCHOOL_DAYS);
+        fields.add(Field.REGISTRATION_CODE);
+
+        return fields;
+    }
+
+    public static String[] convert(List<Field> fields) {
+        if (fields == null) {
+            return null;
+        }
+        String[] array = new String[fields.size()];
+        for (int i = 0; i < fields.size(); i++) {
+            array[i] = fields.get(i).getKey();
+        }
+        return array;
     }
 
     public enum Field {
